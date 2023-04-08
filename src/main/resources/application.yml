@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: SERVICE-REGISTRY
+server:
+  port: 8761
+logging:
+  file:
+    name: ./logs/service-registry.log
+  level:
+    '[com.api-mnt.api]': error
+  logback:
+    rolling policy:
+      clean-history-on-start: false
+      max-history: 31
+eureka:
+  instance:
+    hostname: localhost
+  server:
+    # disable caching offline service (e.g. network temporary down, service down..)
+    enable-self-preservation: true
+    # threshold of received heartbeat to keep registered service remain UP
+    renewal-percent-threshold: 0.85
+    # time to remove old heartbeat
+    eviction-interval-timer-in-ms: 10000
+    response-cache-update-interval-ms: 10000
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: https://${eureka.instance.hostname}:${server.port}/eureka/
